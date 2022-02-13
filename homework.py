@@ -1,6 +1,3 @@
-from turtle import speed
-
-
 class InfoMessage:
     """Информационное сообщение о тренировке."""
     
