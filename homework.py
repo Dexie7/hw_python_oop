@@ -1,6 +1,5 @@
 class InfoMessage:
     """Информационное сообщение о тренировке."""
-    
     def __init__(self, training_type: str,
                  duration: float,
                  distance: float,
@@ -62,15 +61,17 @@ class Training:
 
 class Running(Training):
     """Тренировка: бег."""
-    coeff_calorie_1 = 18
-    coeff_calorie_2 = 20
+    calorie_1 = 18
+    calorie_2 = 20
     TRAINING_TYPE = 'RUN' 
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий при беге."""
-        cal = (self.coeff_calorie_1 * self.get_mean_speed() - self.coeff_calorie_2)
-        calories = cal * self.weight / self.M_IN_KM * self.duration * 60
+        cal = (self.calorie_1 * self.get_mean_speed() - self.calorie_2)
+        cal_2 = self.M_IN_KM * self.duration
+        calories = cal * self.weight / cal_2 * 60
         return calories
+
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
@@ -95,6 +96,7 @@ class SportsWalking(Training):
         cal_3 = self.CF_WALK_3 * self.weight
         calories = (cal_1 + cal_2 * cal_3) * self.duration * 60
         return calories
+
 
 class Swimming(Training):
     """Тренировка: плавание."""
@@ -126,6 +128,7 @@ class Swimming(Training):
         calories = cal_1 * self.CF_SW_2 * self.weight
         return calories
 
+
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     type_workout = {'SWM': Swimming, 'RUN': Running, 'WLK': SportsWalking}
@@ -148,4 +151,3 @@ if __name__ == '__main__':
     for workout_type, data in packages:
         training = read_package(workout_type, data)
         main(training)
-
