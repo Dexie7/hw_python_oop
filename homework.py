@@ -80,8 +80,8 @@ class SportsWalking(Training):
         """Получить количество затраченных калорий при ходьбе."""
         return (
             (self.CF_1 * self.weight + (self.get_mean_speed() ** 2 //
-            self.height) * (self.CF_2 * self.weight)
-            ) * self.duration * self.TRANSLATON
+             self.height) * (self.CF_2 * self.weight))
+            * self.duration * self.TRANSLATON
         )
 
 
