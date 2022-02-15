@@ -64,9 +64,8 @@ class Running(Training):
         """Получить количество затраченных калорий при беге."""
         return (
             (self.SPEED_MULTIPLIER * self.get_mean_speed()
-             - self.SHIFT_MULTIPLIER) * self.weight / (self.M_IN_KM
-                                                       * self.duration
-                                                       * self.TRANSLATON)
+             - self.SHIFT_MULTIPLIER) * self.weight / self.M_IN_KM
+            * self.duration * self.TRANSLATON
         )
 
 
@@ -76,6 +75,7 @@ class SportsWalking(Training):
     CF_1 = 0.035
     CF_2 = 0.029
     TRANSLATON = 60
+    M_IN_KM = 1000
 
     height: float
 
