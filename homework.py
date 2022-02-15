@@ -64,8 +64,8 @@ class Running(Training):
         """Получить количество затраченных калорий при беге."""
         return (
             (self.SPEED_MULTIPLIER * self.get_mean_speed()
-             - self.SHIFT_MULTIPLIER) * self.weight / (self.M_IN_KM 
-             * self.duration * self.TRANSLATON)
+             - self.SHIFT_MULTIPLIER) * self.weight / (self.M_IN_KM
+                                                       * self.duration * self.TRANSLATON)
         )
 
 
