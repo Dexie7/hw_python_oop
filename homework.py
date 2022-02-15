@@ -102,6 +102,7 @@ class Swimming(Training):
 
 TYPE_WORKOUTS = {'SWM': Swimming, 'RUN': Running, 'WLK': SportsWalking}
 
+
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     return TYPE_WORKOUTS[workout_type](*data)
