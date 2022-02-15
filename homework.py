@@ -100,6 +100,7 @@ class Swimming(Training):
         return ((self.get_mean_speed() + self.SPEED_MULTIPLIER) 
         * (self.SHIFT_MULTIPLIER * self.weight))
 
+
 TYPE_WORKOUTS = {'SWM': Swimming, 'RUN': Running, 'WLK': SportsWalking}
 
 
