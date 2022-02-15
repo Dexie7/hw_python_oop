@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 
 @dataclass
@@ -10,15 +10,14 @@ class InfoMessage:
     speed: float
     calories: float
 
-    MY_PHRASE = 'text {key_to_insert:.3f} text'
+    MY_PHRASE = ('Тип тренировки: {training_type}; '
+                'Длительность: {duration:.3f} ч.; '
+                'Дистанция: {distance:.3f} км; '
+                'Ср. скорость: {speed:.3f} км/ч; '
+                'Потрачено ккал: {calories:.3f}.')
 
-    def get_message(self):
-        data = (f'Тип тренировки: {self.training_type}; '
-                f'Длительность: {self.duration} ч.; '
-                f'Дистанция: {self.distance} км; '
-                f'Ср. скорость: {self.speed} км/ч; '
-                f'Потрачено ккал: {self.calories}.')
-        return self.MY_PHRASE.format(key_to_insert=data)
+    def get_message(self) -> str:
+        return self.MY_PHRASE.format(**asdict(self))
 
 
 @dataclass
