@@ -117,7 +117,7 @@ TYPE_WORKOUTS = {'SWM': Swimming, 'RUN': Running, 'WLK': SportsWalking}
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type not in TYPE_WORKOUTS:
-        raise ValueError(f'Неизвестный тип тренировки')
+        raise ValueError('Неизвестный тип тренировки')
     else:
         return TYPE_WORKOUTS[workout_type](*data) 
 
