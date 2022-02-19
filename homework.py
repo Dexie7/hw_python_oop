@@ -111,7 +111,9 @@ class Swimming(Training):
         )
 
 
-TYPE_WORKOUTS = {'SWM': Swimming, 'RUN': Running, 'WLK': SportsWalking}
+TYPE_WORKOUTS = {'SWM': (Swimming, 5),
+                 'RUN': (Running, 3),
+                 'WLK': (SportsWalking, 4)}
 
 
 def read_package(workout_type: str, data: list) -> Training:
@@ -119,18 +121,10 @@ def read_package(workout_type: str, data: list) -> Training:
     if workout_type not in TYPE_WORKOUTS:
         raise ValueError('Неизвестный тип тренировки')
 
-    elif workout_type == 'SWM':
-        action, duration, weight, length_pool, count_pool = data
-        return Swimming(action, duration, weight, length_pool, count_pool)
+    if len(data) != TYPE_WORKOUTS[workout_type][1]:
+        raise ValueError('Неверное колличество параметров')
 
-    elif workout_type == 'RUN':
-        action, duration, weight = data
-        return Running(action, duration, weight)
-
-    elif workout_type == 'WLK':
-        action, duration, weight, height = data
-        return SportsWalking(action, duration, weight, height)
-    return TYPE_WORKOUTS[workout_type](*data)
+    return TYPE_WORKOUTS[workout_type][0](*data)
 
 
 def main(training: Training) -> None:
