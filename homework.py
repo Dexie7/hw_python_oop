@@ -25,7 +25,7 @@ class Training:
     """Базовый класс тренировки."""
     LEN_STEP = 0.65
     M_IN_KM = 1000
-    MINUTES_PER_HOUR = 60
+    MIN_PER_HR = 60
 
     action: int
     duration: float
@@ -64,7 +64,7 @@ class Running(Training):
         return (
             (self.SPEED_MULTIPLIER * self.get_mean_speed()
              - self.SPEED_SHIFT) * self.weight / self.M_IN_KM
-            * self.duration * self.MINUTES_PER_HOUR
+            * self.duration * self.MIN_PER_HR
         )
 
 
@@ -82,15 +82,15 @@ class SportsWalking(Training):
             (self.WEIGHT_MULTIPLIER_1 * self.weight
              + (self.get_mean_speed() ** 2 // self.height)
              * (self.WEIGHT_MULTIPLIER_2 * self.weight))
-            * self.duration * self.MINUTES_PER_HOUR
+            * self.duration * self.MIN_PER_HR
         )
 
 
 @dataclass
 class Swimming(Training):
     """Тренировка: плавание."""
-    SPEED_MULTIPLIER = 1.1
-    SPEED_SHIFT = 2
+    SPEED_SHIFT = 1.1
+    SPEED_MULTIPLIER = 2
     LEN_STEP = 1.38
 
     length_pool: float
@@ -106,8 +106,8 @@ class Swimming(Training):
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий при плавании."""
         return (
-            (self.get_mean_speed() + self.SPEED_MULTIPLIER)
-            * (self.SPEED_SHIFT * self.weight)
+            (self.get_mean_speed() + self.SPEED_SHIFT)
+            * (self.SPEED_MULTIPLIER * self.weight)
         )
 
 
@@ -118,8 +118,19 @@ def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type not in TYPE_WORKOUTS:
         raise ValueError('Неизвестный тип тренировки')
-    else:
-        return TYPE_WORKOUTS[workout_type](*data)
+
+    elif workout_type == 'SWM':
+        action, duration, weight, length_pool, count_pool = data
+        return Swimming(action, duration, weight, length_pool, count_pool)
+
+    elif workout_type == 'RUN':
+        action, duration, weight = data
+        return Running(action, duration, weight)
+
+    elif workout_type == 'WLK':
+        action, duration, weight, height = data
+        return SportsWalking(action, duration, weight, height)
+    return TYPE_WORKOUTS[workout_type](*data)
 
 
 def main(training: Training) -> None:
