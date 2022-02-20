@@ -1,6 +1,5 @@
 from dataclasses import Field, asdict, dataclass, fields
 
-
 @dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
