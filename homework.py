@@ -1,5 +1,6 @@
 from dataclasses import Field, asdict, dataclass, fields
 
+
 @dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
@@ -115,7 +116,6 @@ WORKOUTS = {
     'RUN': Running,
     'WLK': SportsWalking
 }
-
 
 
 def read_package(workout_type: str, data: list[int]) -> Training:
