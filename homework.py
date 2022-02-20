@@ -120,16 +120,14 @@ WORKOUTS = {
 
 def read_package(workout_type: str, data: list[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
-    data_verification = fields(WORKOUTS[workout_type])
     TYPE_ERROR = (f'Выбрано {workout_type}: это неверный тип тренировки. '
-                  f'Попробуйте использовать один из '
-                  f'предложенных: {tuple(WORKOUTS)}')
+                  f'Попробуйте использовать один из предложенных: {tuple(WORKOUTS)}')
     DATA_ERROR = (f'Выбрано {workout_type}: ожидаемое число '
-                  f'входных параметров {len(data_verification)}. '
+                  f'входных параметров {len(fields(WORKOUTS[workout_type]))}. '
                   f'Было введено: {len(data)}.')
     if workout_type not in WORKOUTS:
         raise ValueError(TYPE_ERROR.format(workout_type))
-    if len(data) != len(data_verification):
+    if len(data) != len(fields(WORKOUTS[workout_type])):
         raise ValueError(DATA_ERROR.format(workout_type))
     return WORKOUTS[workout_type](*data)
 
