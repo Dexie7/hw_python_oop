@@ -1,4 +1,4 @@
-from dataclasses import asdict, dataclass
+from dataclasses import Field, asdict, dataclass, fields
 
 
 @dataclass
@@ -90,7 +90,7 @@ class SportsWalking(Training):
 class Swimming(Training):
     """Тренировка: плавание."""
     SPEED_SHIFT = 1.1
-    SPEED_MULTIPLIER = 2
+    WEGHT_MULTIPLIER = 2
     LEN_STEP = 1.38
 
     length_pool: float
@@ -107,24 +107,32 @@ class Swimming(Training):
         """Получить количество затраченных калорий при плавании."""
         return (
             (self.get_mean_speed() + self.SPEED_SHIFT)
-            * (self.SPEED_MULTIPLIER * self.weight)
+            * (self.WEGHT_MULTIPLIER * self.weight)
         )
 
 
-TYPE_WORKOUTS = {'SWM': (Swimming, 5),
-                 'RUN': (Running, 3),
-                 'WLK': (SportsWalking, 4)}
+WORKOUTS = {
+    'SWM': Swimming,
+    'RUN': Running,
+    'WLK': SportsWalking
+}
 
 
-def read_package(workout_type: str, data: list) -> Training:
+
+def read_package(workout_type: str, data: list[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
-    if workout_type not in TYPE_WORKOUTS:
-        raise ValueError('Неизвестный тип тренировки')
-
-    if len(data) != TYPE_WORKOUTS[workout_type][1]:
-        raise ValueError('Неверное колличество параметров')
-
-    return TYPE_WORKOUTS[workout_type][0](*data)
+    TYPE_ERROR = (f'Выбрано {workout_type}: это неверный тип тренировки. '
+                  f'Попробуйте использовать один из предложенных: {tuple(WORKOUTS)}'
+    )
+    DATA_ERROR = (f'Выбрано {workout_type}: ожидаемое число '
+                  f'входных параметров {len(fields(WORKOUTS[workout_type]))}. '
+                  f'Было введено: {len(data)}.'
+    )
+    if workout_type not in WORKOUTS:
+        raise ValueError(TYPE_ERROR.format(workout_type))
+    if len(data) != len(fields(WORKOUTS[workout_type])):
+        raise ValueError(DATA_ERROR.format(workout_type))
+    return WORKOUTS[workout_type](*data)
 
 
 def main(training: Training) -> None:
