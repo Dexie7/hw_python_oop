@@ -133,7 +133,7 @@ def read_package(workout_type: str, data: list) -> Training:
     if len(data) != err:
         raise ValueError(DATA_ERROR.format(workout_type))
     return WORKOUTS[workout_type](*data)
-   
+
 
 def main(training: Training) -> None:
     """Главная функция."""
