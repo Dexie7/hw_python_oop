@@ -120,21 +120,20 @@ WORKOUTS = {
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    TYPE_ERROR = (
-        f'Выбрано {workout_type}: это неверный тип тренировки. '
-        f'Попробуйте использовать один из '
-        f'предложенных: {tuple(WORKOUTS)}')
-    DATA_ERROR = (
-        f'Выбрано {workout_type}. Ожидаемое число '
-        f'входных параметров {len(fields(WORKOUTS[workout_type]))}. '
-        f'Было введено: {len(data)}.'
-    )
+    TYPE_ERROR = (f'Выбрано {workout_type}: это неверный тип тренировки. '
+                  f'Попробуйте использовать один из '
+                  f'предложенных: {tuple(WORKOUTS)}')
     if workout_type not in WORKOUTS:
         raise ValueError(TYPE_ERROR.format(workout_type))
-    if len(data) != len(fields(WORKOUTS[workout_type])):
+    f = fields(WORKOUTS[workout_type])
+    err = len(f)
+    DATA_ERROR = (f'Выбрано {workout_type}. Ожидаемое число '
+                  f'входных параметров {err}. '
+                  f'Было введено: {len(data)}.')
+    if len(data) != err:
         raise ValueError(DATA_ERROR.format(workout_type))
     return WORKOUTS[workout_type](*data)
-
+   
 
 def main(training: Training) -> None:
     """Главная функция."""
