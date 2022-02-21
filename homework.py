@@ -126,7 +126,6 @@ DATA_ERROR = ('Выбрано {workout_type}. Ожидаемое число '
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    
     if workout_type not in WORKOUTS:
         raise ValueError(TYPE_ERROR.format(workout_type=workout_type,
                          tuples=tuple(WORKOUTS)))
